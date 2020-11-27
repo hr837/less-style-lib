@@ -1,0 +1,286 @@
+@size: small, default, large;
+
+// #region font-size-loop
+@min-font-size: 10;
+@max-font-size: 80;
+
+.font-size-loop(@n, @i:@min-font-size) when (@i <= @n) {
+    .font-size-@{i} {
+        font-size: 1px * @i;
+    }
+    .font-size-loop(@n, (@i + 1));
+}
+
+.font-size-loop(@max-font-size);
+// #endregion
+
+// #region font-size-iterate
+@font-size-value: 10px, 14px, 16px;
+
+.font-size-iterate(@data, @i: 1) when(@i =< length(@data)) {
+    @item: extract(@data, @i);
+    @value: extract(@font-size-value, @i);
+
+    .font-size-@{item} {
+        font-size: @value;
+    }
+    .font-size-iterate(@data, (@i + 1));
+}
+
+.font-size-iterate(@size);
+// #endregion
+
+// #region font-weight-loop
+@min-font-weight: 100;
+@max-font-weight: 700;
+
+.font-weight-loop(@n, @i: @min-font-weight) when(@i =< @n) {
+    .font-weight-@{i} {
+        font-weight: @i;
+    }
+    .font-weight-loop(@n,@i + 100);
+}
+.font-weight-loop(@max-font-weight);
+// #endregion
+
+// #region font-weight-iterate
+@weight: light lighter bold bolder;
+
+.font-weight(@data, @i: 1) when(@i =< length(@data)) {
+    @item: extract(@data, @i);
+
+    .font-weight-@{item} {
+        font-weight: @item;
+    }
+    .font-weight(@data, (@i + 1));
+}
+.font-weight(@weight);
+// #endregion
+
+// #region font-title-iterate
+@font-title-value: 14px 18px 24px;
+
+.font-title-iterate(@data, @i: 1) when(@i =< length(@data)) {
+    @item: extract(@data, @i);
+    @value: extract(@font-title-value, @i);
+
+    .font-title-@{item} {
+        font-size: @item;
+        font-weight: bold;
+    }
+    .font-title-iterate(@data, (@i + 1));
+}
+
+.font-title-iterate(@weight);
+
+// default font-title
+.font-title {
+    font-size: 18px;
+    font-weight: bolder;
+}
+
+// #endregion
+
+// #region padding-iterate
+@padding-direction: t, b, l, r, x, y;
+@padding-value:5px 10px 15px;
+
+.padding-direction-iterate(@data, @item, @value, @i: 1)
+    when(@i =< length(@data)) {
+    @direction: extract(@data, @i);
+
+    .p-@{direction}-@{item} {
+        padding-@{direction}: @value;
+    }
+
+    .p-@{direction}-@{item} when (@direction = l) {
+        padding-left: @value;
+    }
+
+    .p-@{direction}-@{item} when (@direction = r) {
+        padding-right: @value;
+    }
+
+    .p-@{direction}-@{item} when (@direction = t) {
+        padding-top: @value;
+    }
+
+    .p-@{direction}-@{item} when (@direction = b) {
+        padding-bottom: @value;
+    }
+
+    .p-@{direction}-@{item} when (@direction = x) {
+        padding: 0 @value;
+    }
+
+    .p-@{direction}-@{item} when (@direction = y) {
+        padding: @value 0;
+    }
+
+    .padding-direction-iterate(@data,  @item, @value, (@i + 1));
+}
+
+.padding-iterate(@data, @i: 1) when(@i =< length(@data)) {
+    @item: extract(@data, @i);
+    @value: extract(@padding-value, @i);
+
+    .p-a-@{item} {
+        padding: @value;
+    }
+
+    .padding-direction-iterate(@padding-direction, @item, @value);
+    .padding-iterate(@data, (@i + 1));
+}
+
+.padding-iterate(@size);
+
+// #endregion;
+
+// #region padding-loop
+@padding-direction: t, b, l, r, x, y;
+@min-padding-value: 1;
+@max-padding-value: 80;
+
+.padding-direction-loop(@data,  @value, @i: 1) when(@i =< length(@data)) {
+    @direction: extract(@data, @i);
+
+    .p-@{direction}-@{value} when (@direction = l) {
+        padding-left: @value * 1px;
+    }
+
+    .p-@{direction}-@{value} when (@direction = r) {
+        padding-right: @value * 1px;
+    }
+
+    .p-@{direction}-@{value} when (@direction = t) {
+        padding-top: @value * 1px;
+    }
+
+    .p-@{direction}-@{item} when (@direction = b) {
+        padding-bottom: @value * 1px;
+    }
+
+    .p-@{direction}-@{item} when (@direction = x) {
+        padding: 0 @value * 1px;
+    }
+
+    .p-@{direction}-@{item} when (@direction = y) {
+        padding: @value * 1px 0;
+    }
+
+    .padding-direction-loop(@data, @value, (@i + 1));
+}
+
+.padding-loop(@n, @i: @min-padding-value) when(@i =< @n ) {
+    .p-a-@{i} {
+        padding: 1px * @i;
+    }
+
+    .padding-direction-loop(@padding-direction, @i);
+    .padding-loop(@n, (@i + 1));
+}
+
+.padding-loop(@max-padding-value);
+// #endregion
+
+// #region margin-iterate
+@margin-direction: t, b, l, r, x, y;
+@margin-value:5px 10px 15px;
+
+.margin-direction-iterate(@data, @item, @value, @i: 1)
+    when(@i =< length(@data)) {
+    @direction: extract(@data, @i);
+
+    .m-@{direction}-@{item} {
+        margin-@{direction}: @value;
+    }
+
+    .m-@{direction}-@{item} when (@direction = l) {
+        margin-left: @value;
+    }
+
+    .m-@{direction}-@{item} when (@direction = r) {
+        margin-right: @value;
+    }
+
+    .m-@{direction}-@{item} when (@direction = t) {
+        margin-top: @value;
+    }
+
+    .m-@{direction}-@{item} when (@direction = b) {
+        margin-bottom: @value;
+    }
+
+    .m-@{direction}-@{item} when (@direction = x) {
+        margin: 0 @value;
+    }
+
+    .m-@{direction}-@{item} when (@direction = y) {
+        margin: @value 0;
+    }
+
+    .margin-direction-iterate(@data,  @item, @value, (@i + 1));
+}
+
+.margin-iterate(@data, @i: 1) when(@i =< length(@data)) {
+    @item: extract(@data, @i);
+    @value: extract(@margin-value, @i);
+
+    .m-a-@{item} {
+        margin: @value;
+    }
+
+    .margin-direction-iterate(@margin-direction, @item, @value);
+    .margin-iterate(@data, (@i + 1));
+}
+
+.margin-iterate(@size);
+
+// #endregion;
+
+// #region margin-loop
+@margin-direction: t, b, l, r, x, y;
+@min-margin-value: 1;
+@max-margin-value: 80;
+
+.margin-direction-loop(@data,  @value, @i: 1) when(@i =< length(@data)) {
+    @margin: extract(@data, @i);
+
+    .m-@{direction}-@{value} when (@direction = l) {
+        margin-left: @value * 1px;
+    }
+
+    .m-@{direction}-@{value} when (@direction = r) {
+        margin-right: @value * 1px;
+    }
+
+    .m-@{direction}-@{value} when (@direction = t) {
+        margin-top: @value * 1px;
+    }
+
+    .m-@{direction}-@{item} when (@direction = b) {
+        margin-bottom: @value * 1px;
+    }
+
+    .m-@{direction}-@{item} when (@direction = x) {
+        margin: 0 @value * 1px;
+    }
+
+    .m-@{direction}-@{item} when (@direction = y) {
+        margin: @value * 1px 0;
+    }
+
+    .margin-direction-loop(@data, @value, (@i + 1));
+}
+
+.margin-loop(@n, @i: @min-margin-value) when(@i =< @n ) {
+    .m-a-@{i} {
+        margin: 1px * @i;
+    }
+
+    .margin-direction-loop(@margin-direction, @i);
+    .margin-loop(@n, (@i + 1));
+}
+
+.margin-loop(@max-margin-value);
+// #endregion
