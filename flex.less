@@ -73,9 +73,9 @@
 
 .flex-basis-loop(@n, @i:1) when (@i <= @n) {
     .flex-basis-@{i} {
-        -webkit-flex-basis: percentage(@i / @n);
-        -ms-flex-preferred-size: percentage(@i / @n);
-        flex-basis: percentage(@i / @n);
+        -webkit-flex-basis: percentage((@i / @n));
+        -ms-flex-preferred-size: percentage((@i / @n));
+        flex-basis: percentage((@i / @n));
     }
     .flex-basis-loop(@n, (@i + 1));
 }
